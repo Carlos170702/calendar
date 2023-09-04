@@ -30,7 +30,7 @@ const registerUser = async (req = request, res = response) => {
 
     res.status(201).json({
       ok: true,
-      UID: user.id,
+      uid: user.id,
       name: user.name,
       token,
     });
@@ -73,6 +73,8 @@ const loginUSer = async (req = request, res = response) => {
     res.json({
       ok: true,
       message: "Password is valid",
+      name: user.name,
+      uid: user.id,
       token,
     });
   } catch (error) {
@@ -89,11 +91,13 @@ const revalidateToken = async (req = request, res = response) => {
   const name = req.name;
   const uid = req.uid;
 
-  // generate new access token 
+  // generate new access token
   const token = await generateJWT(uid, name);
 
   res.json({
     ok: true,
+    uid: name,
+    name: uid,
     token,
   });
 };
